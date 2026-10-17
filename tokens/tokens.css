@@ -1,0 +1,33 @@
+:root {
+  /* Background */
+  --obsidian-950: #17191C;
+  --obsidian-900: #212429;
+  --obsidian-800: #2E323B;
+
+  /* Text & brand 1 */
+  --chalk-100: #EBE8E0;
+  --chalk-400: #9BA1AB;
+
+  /* Accent & brand 2 */
+  --ochre-500: #C6934B;
+  --ochre-600: #A87938;
+
+  /* Semantic */
+  --trail-green: #10B981;
+  --amber-warn: #F59E0B;
+  --crimson-alert: #EF4444;
+
+  /* Typography */
+  --font-ui: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+
+  /* Touch targets (gloves) */
+  --touch-min: 48px;
+  --touch-primary: 56px;
+}
+
+.telemetry {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--chalk-100);
+}

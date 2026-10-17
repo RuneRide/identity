@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RuneRide — Brand board</title>
+<link rel="stylesheet" href="tokens/tokens.css">
+<style>
+  @font-face { font-family: "Inter"; src: url("fonts/Inter-Variable.ttf"); font-weight: 100 900; }
+  @font-face { font-family: "JetBrains Mono"; src: url("fonts/JetBrainsMono-Variable.ttf"); font-weight: 100 800; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--obsidian-950); color: var(--chalk-100); font: 400 16px/1.55 var(--font-ui); }
+  main { max-width: 1100px; margin: 0 auto; padding: 0 16px 96px; }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+  h2 { font-size: 22px; margin-bottom: 4px; }
+  h3 { font-size: 15px; color: var(--chalk-400); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; margin-bottom: 12px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--chalk-400); }
+  .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  section { padding-top: 64px; }
+  .lead { color: var(--chalk-400); max-width: 62ch; margin-bottom: 24px; }
+
+  .hero { text-align: center; padding: 72px 0 24px; }
+  .hero img { width: min(420px, 80%); height: auto; }
+  .hero p { color: var(--chalk-400); margin-top: 8px; }
+
+  .rdiv { display: block; width: 100%; max-width: 480px; height: auto; margin: 40px auto 0; }
+
+  .grid { display: grid; gap: 16px; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .card { background: var(--obsidian-900); border: 1px solid var(--obsidian-800); border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
+  .card.active { border-color: var(--ochre-500); }
+  .stage { display: grid; place-items: center; border-radius: 12px; padding: 28px; border: 1px solid var(--obsidian-800); }
+  .stage.light { background: var(--chalk-100); border-color: var(--chalk-100); }
+  .stage img { display: block; }
+
+  .swatch { border-radius: 12px; overflow: hidden; border: 1px solid var(--obsidian-800); background: var(--obsidian-900); }
+  .swatch .chip { height: 72px; }
+  .swatch .meta { padding: 10px 12px; font-size: 13px; }
+  .swatch b { display: block; font-weight: 600; font-size: 14px; }
+  .swatch code { font-family: var(--font-mono); color: var(--chalk-400); }
+
+  .icons { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+  .icons figure { margin: 0; text-align: center; font-size: 12px; color: var(--chalk-400); }
+  .icons img { display: block; margin: 0 auto 6px; }
+
+  /* Composants — règles BRAND.md : cibles >= 48px (56px primaires), surfaces plates, bordure 1px */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: var(--touch-primary); padding: 0 24px; border-radius: 12px; border: 1px solid transparent; font: 600 17px var(--font-ui); cursor: pointer; color: var(--obsidian-950); background: var(--ochre-500); }
+  .btn:active { background: var(--ochre-600); }
+  .btn.secondary { background: var(--obsidian-900); color: var(--chalk-100); border-color: var(--obsidian-800); min-height: var(--touch-min); }
+  .btn.secondary:hover { border-color: var(--ochre-500); }
+  .btn.sos { background: var(--crimson-alert); color: #fff; flex-direction: column; gap: 0; line-height: 1.15; padding: 8px 24px; }
+  .btn.sos small { font-weight: 500; font-size: 12px; opacity: 0.9; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+  .metric { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .metric .value { font-size: 56px; font-weight: 700; line-height: 1; color: var(--chalk-100); }
+  .metric .unit { font-size: 16px; color: var(--chalk-400); margin-left: 6px; font-weight: 400; }
+  .metric .label { font: 500 12px var(--font-ui); color: var(--chalk-400); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .metric .key { color: var(--ochre-500); }
+
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid currentColor; }
+  .ok { color: var(--trail-green); } .warn { color: var(--amber-warn); } .danger { color: var(--crimson-alert); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+  .topo { position: absolute; inset: 0; background: url("patterns/topo-tile.svg") 0 0 / 300px 300px; pointer-events: none; }
+  .card > *:not(.topo) { position: relative; }
+
+  .quote { border-left: 2px solid var(--ochre-500); padding-left: 16px; margin: 0 0 16px; }
+  .quote .tag { font: 500 11px var(--font-ui); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ochre-500); }
+  .do li, .dont li { margin-bottom: 6px; }
+  ul { margin: 0; padding-left: 18px; }
+
+  .tabletop { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .tabletop th { text-align: left; font: 500 12px var(--font-ui); text-transform: uppercase; letter-spacing: .08em; color: var(--chalk-400); padding: 8px 12px; border-bottom: 1px solid var(--obsidian-800); }
+  .tabletop td { padding: 10px 12px; border-bottom: 1px solid var(--obsidian-800); vertical-align: top; }
+  .tabletop tr:last-child td { border-bottom: 0; }
+  .tabletop .fr { font-weight: 600; } .tabletop .en { color: var(--chalk-400); }
+  .tabletop .sub { color: var(--chalk-400); }
+  .tag-id { font: 500 11px var(--font-mono); color: var(--ochre-500); letter-spacing: .04em; }
+  .motto { color: var(--ochre-500); font-style: italic; margin: 6px 0 10px; }
+  .card h4 { margin: 0; font-size: 17px; font-weight: 600; }
+  .card .en { color: var(--chalk-400); font-size: 13px; }
+  .ranks { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: r; }
+  .ranks li { counter-increment: r; display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px; border: 1px solid var(--obsidian-800); border-radius: 999px; font-size: 13px; background: var(--obsidian-900); }
+  .ranks li::before { content: counter(r); font: 600 12px var(--font-mono); color: var(--ochre-500); }
+  footer { margin-top: 64px; color: var(--chalk-400); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <img src="logo/lockup.svg" alt="RuneRide">
+  <p>Nordic Craft &amp; Modern Telemetry — brand board</p>
+</header>
+<img class="rdiv" src="patterns/runic-divider-ornate.svg" alt="">
+
+<section>
+  <h2>Logo</h2>
+  <p class="lead">Monogramme issu de la rune Raidho (ᚱ) et d'un double R : deux rubans parallèles, chalk et ochre, comme une route à double voie ou une trace GPS.</p>
+  <div class="grid g2">
+    <div class="stage"><img src="logo/lockup.svg" width="320" alt="Lockup bicolore"></div>
+    <div class="stage light"><img src="logo/lockup-mono-dark.svg" width="320" alt="Lockup monochrome sombre"></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="stage"><img src="logo/lockup-horizontal.svg" width="360" alt="Lockup horizontal"></div>
+    <div class="stage light"><img src="logo/lockup-horizontal-mono-dark.svg" width="360" alt="Lockup horizontal monochrome sombre"></div>
+  </div>
+  <div class="grid g3" style="margin-top:16px">
+    <div class="stage"><img src="logo/monogram.svg" height="150" alt="Monogramme"></div>
+    <div class="stage"><img src="logo/monogram-mono-chalk.svg" height="150" alt="Monogramme monochrome clair"></div>
+    <div class="stage light"><img src="logo/monogram-mono-dark.svg" height="150" alt="Monogramme monochrome sombre"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Icône d'app &amp; favicon</h2>
+  <p class="lead">Logo complet dès 32 px ; version simplifiée (traits épais, un seul ruban ochre) uniquement pour 20 px et moins (favicon 16 px).</p>
+  <div class="card">
+    <div class="icons">
+      <figure><img src="logo/icon/png/icon-192.png" width="128" alt=""><span>app · 192</span></figure>
+      <figure><img src="logo/icon/png/icon-180.png" width="90" alt=""><span>180</span></figure>
+      <figure><img src="logo/icon/png/favicon-64.png" width="64" alt=""><span>64</span></figure>
+      <figure><img src="logo/icon/png/favicon-48.png" width="48" alt=""><span>48</span></figure>
+      <figure><img src="logo/icon/png/favicon-32.png" width="32" alt=""><span>32</span></figure>
+      <figure><img src="logo/icon/png/favicon-16.png" width="16" alt=""><span>16</span></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Couleurs</h2>
+  <p class="lead">Dark-first : contraste, économie OLED, lisibilité sans reflet sur un guidon en plein soleil. Aplats mats, jamais de dégradé métallique.</p>
+  <div class="grid g3" id="palette"></div>
+</section>
+
+<section>
+  <h2>Typographie</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Interface · Inter</h3>
+      <div style="font-size:40px;font-weight:600;letter-spacing:-0.02em;line-height:1.1">Wayfinder's Grimoire</div>
+      <p class="muted" style="margin-top:12px">Grande x-height, lecture d'un coup d'œil pendant la conduite. Poids 400 / 500 / 600.</p>
+    </div>
+    <div class="card">
+      <h3>Télémétrie · JetBrains Mono</h3>
+      <div class="mono" style="font-size:40px;font-weight:700;line-height:1.1">128.4 <span class="muted" style="font-size:18px;font-weight:400">km/h</span></div>
+      <p class="muted" style="margin-top:12px">Chiffres tabulaires (<code class="mono">tabular-nums</code>) : les valeurs ne tremblent pas quand elles changent.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Composants</h2>
+  <p class="lead">Cibles tactiles ≥ 48 px (56 px pour les boutons primaires), surfaces plates, bordure 1 px, ochre uniquement pour l'actif et l'important.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Boutons</h3>
+      <div class="row">
+        <button class="btn">Démarrer la Quête</button>
+        <button class="btn secondary">Itinéraire</button>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn sos"><span>SOS / Assistance</span><small>Les Feux de Garde</small></button>
+      </div>
+      <p class="muted" style="margin:12px 0 0;font-size:13px">80 % utilité, 20 % lore : le libellé principal reste explicite.</p>
+    </div>
+
+    <div class="card active">
+      <h3>Télémétrie</h3>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:20px">
+        <div class="metric"><div class="label">Vitesse</div><div><span class="value">112</span><span class="unit">km/h</span></div></div>
+        <div class="metric"><div class="label">Inclinaison</div><div><span class="value key">34°</span></div></div>
+        <div class="metric"><div class="label">Distance</div><div><span class="value" style="font-size:36px">286.4</span><span class="unit">km</span></div></div>
+        <div class="metric"><div class="label">Meilleur prix</div><div><span class="value key" style="font-size:36px">1.789</span><span class="unit">€/L</span></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="topo"></div>
+      <h3>Avant-poste</h3>
+      <div class="row" style="justify-content:space-between">
+        <div><b style="font-size:18px">Station du Col</b><div class="muted" style="font-size:14px">14 km · sur ta route</div></div>
+        <span class="badge ok"><span class="dot"></span>Ouvert</span>
+      </div>
+      <div class="metric" style="margin-top:14px"><span class="value key" style="font-size:36px">1.789</span><span class="unit">€/L</span></div>
+    </div>
+
+    <div class="card">
+      <h3>États</h3>
+      <div class="row">
+        <span class="badge ok"><span class="dot"></span>Membre actif</span>
+        <span class="badge warn"><span class="dot"></span>Carburant bas</span>
+        <span class="badge danger"><span class="dot"></span>REC</span>
+        <span class="badge danger"><span class="dot"></span>Col fermé</span>
+      </div>
+      <img class="rdiv" src="patterns/runic-divider.svg" alt="" style="margin-top:24px">
+      <p class="muted" style="margin-top:14px;font-size:14px">Séparateur runique : ligne fine, losange ochre au centre.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Univers</h2>
+  <p class="lead">Un Pacte entre les Nains de l'Enclume et les Elfes de la Canopée, scellé au Haut Col de Raidho (ᚱ). Détail complet dans <code class="mono">CODEX.md</code>.</p>
+
+  <h3>Les trois Ordres</h3>
+  <div class="grid g3"><div class="card"><h4>L'Ordre de l'Enclume</h4><div class="en">Les Gardiens de l'Enclume · héritage nain</div><div class="motto">«&nbsp;Iron endures where flesh falters.&nbsp;»</div><p class="muted" style="margin:10px 0 0;font-size:14px">Maîtrise mécanique, hauts cols, grand tourisme, entretien (<i>La Forge d'Acier</i>) et sobriété.</p></div><div class="card"><h4>Les Éclaireurs Sylvestres</h4><div class="en">The Sylvan Outriders · héritage elfique</div><div class="motto">«&nbsp;Leave only tracks; take only the wind.&nbsp;»</div><p class="muted" style="margin:10px 0 0;font-size:14px">Petites routes, pistes, fluidité en courbe, chronique 360° (<i>L'Orbe du Voyant</i>), POI cachés.</p></div><div class="card"><h4>Les Veilleurs du Foyer</h4><div class="en">The Wardens of the Hearth · la Compagnie</div><div class="motto">«&nbsp;No rider rides alone in the dark.&nbsp;»</div><p class="muted" style="margin:10px 0 0;font-size:14px">Sorties de groupe (<i>La Compagnie</i>), prix du carburant, assistance panne (<i>Les Feux de Garde</i>).</p></div></div>
+
+  <h3 style="margin-top:32px">Les cinq Clans · segment de la moto</h3>
+  <div class="grid g3"><div class="card"><h4>Les Seigneurs des Valises d'Argent</h4><div class="en">The Pannier Lords</div><div class="tag-id">TRAIL_HEAVY</div><p class="muted" style="margin:10px 0 0;font-size:14px">Rois nains de la caravane : trois valises alu, selle chauffante, antibrouillards à aveugler un dragon.</p></div><div class="card"><h4>Les Éclaireurs des Cimes</h4><div class="en">The Crag-Hoppers</div><div class="tag-id">TRAIL_LIGHT</div><p class="muted" style="margin:10px 0 0;font-size:14px">Rôdeurs de montagne : aucune peur de la boue, mécanique simple, sac étanche sur la selle.</p></div><div class="card"><h4>Les Faucons d'Émeraude</h4><div class="en">The Apex Falcons</div><div class="tag-id">SPORT_ROADSTER</div><p class="muted" style="margin:10px 0 0;font-size:14px">Lanciers du vent : allergiques aux lignes droites, ils vivent d'Avant-poste en Avant-poste.</p></div><div class="card"><h4>Les Barons du Tonnerre</h4><div class="en">The Thunder-Beards</div><div class="tag-id">CRUISER_CUSTOM</div><p class="muted" style="margin:10px 0 0;font-size:14px">Berserkers du foyer de fer : chrome poli, présence avant l'angle, étincelles sous les repose-pieds.</p></div><div class="card"><h4>Les Alchimistes du Café</h4><div class="en">The Tavern-Racers</div><div class="tag-id">NEO_RETRO</div><p class="muted" style="margin:10px 0 0;font-size:14px">Bardes artisans : cuir vintage, casques jet, légende devant la taverne — s'il ne pleut pas.</p></div></div>
+
+  <h3 style="margin-top:32px">Dictionnaire in-app · 80 % utilité, 20 % lore</h3>
+  <div class="card" style="padding:8px;overflow-x:auto">
+    <table class="tabletop"><thead><tr><th>Module</th><th>Titre de lore</th><th>Sous-titre fonctionnel</th></tr></thead><tbody><tr><td>Accueil</td><td><span class="fr">Le Foyer</span><br><span class="en">The Hearth</span></td><td class="sub">Tableau de bord &amp; Campement</td></tr><tr><td>Planificateur &amp; GPX</td><td><span class="fr">Les Parchemins de Pierre</span><br><span class="en">Stone Scrolls</span></td><td class="sub">Itinéraires, Traces GPX &amp; Cartes hors-ligne</td></tr><tr><td>Waypoints &amp; cols</td><td><span class="fr">Les Pierres de Gué</span><br><span class="en">Waystones</span></td><td class="sub">Cols, Points d'intérêt &amp; Étapes</td></tr><tr><td>Caméra 360°</td><td><span class="fr">L'Orbe du Voyant</span><br><span class="en">The Seer's Orb</span></td><td class="sub">Montage Insta360 &amp; Chroniques vidéo</td></tr><tr><td>Télémétrie</td><td><span class="fr">Les Runes Cinétiques</span><br><span class="en">Kinetic Runes</span></td><td class="sub">Angle, Vitesse &amp; Statistiques</td></tr><tr><td>Carburant</td><td><span class="fr">La Bourse de l'Intendant</span><br><span class="en">Quartermaster's Ledger</span></td><td class="sub">Stations-service &amp; Prix du carburant</td></tr><tr><td>Garage</td><td><span class="fr">La Forge d'Acier</span><br><span class="en">The Iron Forge</span></td><td class="sub">Carnet d'entretien, Pneus &amp; Consommables</td></tr><tr><td>Groupe</td><td><span class="fr">La Compagnie</span><br><span class="en">The Fellowship</span></td><td class="sub">Balades en groupe &amp; Suivi de meute</td></tr><tr><td>SOS</td><td><span class="fr">Les Feux de Garde</span><br><span class="en">The Watchfires</span></td><td class="sub">Assistance panne &amp; Alerte de sécurité</td></tr></tbody></table>
+  </div>
+
+  <h3 style="margin-top:32px">Rangs (niveaux 1 à 7)</h3>
+  <ol class="ranks"><li>Vagabond des Sentiers</li><li>Porteur d'Écusson</li><li>Graveur de Pierres</li><li>Arpenteur des Cimes</li><li>Maître-Forgeron de l'Asphalte</li><li>Seigneur de la Compagnie</li><li>Gardien des Hautes Runes</li></ol>
+
+  <h3 style="margin-top:32px">Les Adversaires · alertes système</h3>
+  <div class="grid g3">
+    <div class="card"><h4>L'Ombre Grise</h4><div class="en">The Grey Monotony</div><p class="muted" style="margin:10px 0 0;font-size:14px">Autoroutes et lignes droites → option « Éviter les autoroutes ».</p></div>
+    <div class="card"><h4>La Morsure de la Rouille</h4><div class="en">The Rust-Creep</div><p class="muted" style="margin:10px 0 0;font-size:14px">Plaquettes, chaîne, huile → rappels d'entretien de la Forge.</p></div>
+    <div class="card"><h4>Le Brouillard Aveugle</h4><div class="en">The Blind Mist</div><p class="muted" style="margin:10px 0 0;font-size:14px">Zones sans réseau, orages → mode hors-ligne et alertes météo.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Voix &amp; micro-copy</h2>
+  <p class="lead">Épique pour planifier et célébrer, limpide pour rouler. Détail dans <code class="mono">LORE.md</code> et <code class="mono">CODEX.md</code>.</p>
+  <div class="grid g2">
+    <div class="card">
+      <div class="quote"><div class="tag">Onboarding</div>« Bienvenue, Voyageur. Les cols anciens et les routes oubliées n'attendent que ta trace. »</div>
+      <div class="quote" style="margin:0"><div class="tag">Chronique vide</div>« Ta Chronique est encore vierge. Selle ta monture et grave ta première rune sur l'asphalte. »</div>
+    </div>
+    <div class="card">
+      <div class="quote"><div class="tag">Carburant</div>« Les réserves diminuent. Un Avant-poste au tarif avantageux se dresse à 14 km. »</div>
+      <div class="quote" style="margin:0"><div class="tag">Entretien</div>« Les maîtres de la Forge recommandent une inspection des freins avant ta prochaine grande quête. »</div>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>À faire</h3><ul class="do"><li>Aplats mats, bordures 1 px</li><li>Chalk pour les valeurs, ochre pour l'important</li><li>Libellé explicite + sous-titre lore</li></ul></div>
+    <div class="card"><h3>À éviter</h3><ul class="dont"><li>Cornes, boucliers, polices médiévales</li><li>Orange néon, flammes, damier</li><li>Dégradés dorés, ombres lourdes, glassmorphism</li><li>Termes Tolkien déposés</li></ul></div>
+  </div>
+</section>
+
+<footer>RuneRide · identité visuelle · tokens dans <code class="mono">tokens/tokens.css</code></footer>
+</main>
+
+<script>
+  // Palette lue depuis les tokens CSS pour qu'elle reste la source de vérité
+  const roles = [
+    ["obsidian-950", "Fond principal"], ["obsidian-900", "Surface"], ["obsidian-800", "Bordure"],
+    ["chalk-100", "Texte / marque 1"], ["chalk-400", "Texte secondaire"], ["ochre-500", "Accent / marque 2"],
+    ["ochre-600", "Accent pressé"], ["trail-green", "Succès"], ["amber-warn", "Alerte"], ["crimson-alert", "Danger"],
+  ];
+  const root = document.getElementById("palette");
+  const css = getComputedStyle(document.documentElement);
+  for (const [token, role] of roles) {
+    const hex = css.getPropertyValue("--" + token).trim();
+    root.insertAdjacentHTML("beforeend",
+      `<div class="swatch"><div class="chip" style="background:${hex}"></div>` +
+      `<div class="meta"><b>${role}</b><code>${token} · ${hex}</code></div></div>`);
+  }
+</script>
+</body>
+</html>
