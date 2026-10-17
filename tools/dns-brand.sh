@@ -38,22 +38,34 @@ if [[ -z "$host" || -z "$user" || -z "$token" ]]; then
   exit 1
 fi
 
-# Appel UAPI : $1 = module/fonction, puis des paires clé=valeur (encodées par curl)
-uapi() {
+# ZoneEdit n'existe qu'en API v2 de cPanel : $1 = fonction, puis des paires clé=valeur (encodées par curl)
+api2() {
   local fn="$1"; shift
-  local args=(); for kv in "$@"; do args+=(--data-urlencode "$kv"); done
-  curl -fsS --get -H "Authorization: cpanel ${user}:${token}" "https://${host}:2083/execute/${fn}" "${args[@]}"
+  local args=(--data-urlencode "cpanel_jsonapi_apiversion=2" --data-urlencode "cpanel_jsonapi_module=ZoneEdit" --data-urlencode "cpanel_jsonapi_func=$fn")
+  for kv in "$@"; do args+=(--data-urlencode "$kv"); done
+  curl -fsS --get -H "Authorization: cpanel ${user}:${token}" "https://${host}:2083/json-api/cpanel" "${args[@]}"
 }
 
-zone=$(uapi ZoneEdit/fetchzone_records "domain=$DOMAIN" "customonly=1")
-echo "== Enregistrements personnalisés existants pour $DOMAIN (brand et vérifications GitHub) =="
-jq -r '.data[]? | select((.name // "") | test("^(brand|_github)")) | [.type, .name, (.cname // .txtdata // .address // "")] | @tsv' <<<"$zone" || true
+# Arrêt net si la réponse n'est pas exploitable (jamais de « liste vide » trompeuse)
+require_ok() {
+  if ! jq -e '.cpanelresult.data' >/dev/null 2>&1 <<<"$1"; then
+    echo "Réponse cPanel inattendue :" >&2
+    jq -r '.cpanelresult.error // .error // "(pas de message)"' <<<"$1" 2>/dev/null >&2 || echo "$1" | head -c 300 >&2
+    exit 1
+  fi
+}
 
-# Retourne la valeur d'un enregistrement existant (nom relatif ou FQDN) ou vide
-existing() { jq -r --arg n "$1.$DOMAIN." --arg t "$2" '.data[]? | select(.type==$t and .name==$n) | (.cname // .txtdata // "")' <<<"$zone" | head -1; }
+zone=$(api2 fetchzone_records "domain=$DOMAIN" "customonly=1")
+require_ok "$zone"
+echo "== Enregistrements personnalisés existants pour $DOMAIN (brand et vérifications GitHub) =="
+jq -r '.cpanelresult.data[]? | select((.name // "") | test("^(brand|_github)")) | [.type, .name, (.cname // .txtdata // .address // "")] | @tsv' <<<"$zone" || true
+echo "($(jq '.cpanelresult.data | length' <<<"$zone") enregistrements personnalisés au total)"
+
+# Retourne la valeur d'un enregistrement existant (nom relatif) ou vide
+existing() { jq -r --arg n "$1.$DOMAIN." --arg t "$2" '.cpanelresult.data[]? | select(.type==$t and .name==$n) | (.cname // .txtdata // "")' <<<"$zone" | head -1; }
 
 add_record() { # type, nom relatif, valeur
-  local type="$1" name="$2" value="$3" cur
+  local type="$1" name="$2" value="$3" cur res
   cur=$(existing "$name" "$type")
   if [[ -n "$cur" ]]; then
     if [[ "$cur" == "$value" || "$cur" == "${value%.}" ]]; then echo "= $type $name : déjà présent, rien à faire"; return; fi
@@ -62,10 +74,13 @@ add_record() { # type, nom relatif, valeur
   echo "+ $type $name -> $value"
   [[ $APPLY -eq 1 ]] || return 0
   if [[ "$type" == "CNAME" ]]; then
-    uapi ZoneEdit/add_zone_record "domain=$DOMAIN" "name=$name" "type=CNAME" "cname=$value" "ttl=300" | jq -r '.status, (.errors // [] | join(" "))'
+    res=$(api2 add_zone_record "domain=$DOMAIN" "name=$name" "type=CNAME" "cname=$value" "ttl=300")
   else
-    uapi ZoneEdit/add_zone_record "domain=$DOMAIN" "name=$name" "type=TXT" "txtdata=$value" "ttl=300" | jq -r '.status, (.errors // [] | join(" "))'
+    res=$(api2 add_zone_record "domain=$DOMAIN" "name=$name" "type=TXT" "txtdata=$value" "ttl=300")
   fi
+  require_ok "$res"
+  jq -r '.cpanelresult.data[0].result | "  statut=\(.status) \(.statusmsg // "")"' <<<"$res"
+  [[ "$(jq -r '.cpanelresult.data[0].result.status' <<<"$res")" == "1" ]] || { echo "  échec de l'ajout" >&2; exit 1; }
 }
 
 echo "== Plan $( [[ $APPLY -eq 1 ]] && echo '(appliqué)' || echo '(simulation, ajouter --apply pour écrire)' ) =="
