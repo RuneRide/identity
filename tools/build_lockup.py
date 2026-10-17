@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: EUPL-1.2
 """Compose le lockup (monogramme + wordmark RuneRide en chemins) à partir de logo/monogram.svg et d'Inter.
 
 Usage : build_lockup.py <font.ttf> <monogram.svg> <sortie.svg> [--horizontal]

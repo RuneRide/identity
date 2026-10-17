@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: EUPL-1.2
 """Assemble favicon.ico (entrées PNG) à partir de logo/icon/png.
 
 Règle d'icône : 16 px simplifié, 32/48 px logo complet.

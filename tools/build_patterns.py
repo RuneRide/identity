@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: EUPL-1.2
 """Génère les motifs lore : séparateurs runiques et courbes de niveau (tuile sans couture).
 
 Usage : build_patterns.py <dossier_sortie>

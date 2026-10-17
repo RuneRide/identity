@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: EUPL-1.2
 """Icône simplifiée (favicon / icône d'app) dérivée de la géométrie du monogramme.
 
 Même repère que build_monogram.py (viewBox 481x598) : traits épais, un seul ruban ochre,

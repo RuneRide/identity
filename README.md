@@ -32,3 +32,7 @@ python3 tools/build_ico.py logo/icon/png logo/icon/favicon.ico
 Les variantes monochromes sont obtenues en remplaçant les couleurs des SVG (`#EBE8E0` pour fond sombre, `#17191C` pour fond clair). Les PNG sont rendus avec Chrome headless à partir des SVG.
 
 Règle d'icône : logo complet à partir de 32 px, version simplifiée uniquement pour 20 px et moins.
+
+## Licences et usage de l'IA
+
+Code : **EUPL-1.2**. Logos, textes et le reste : **CC BY-SA 4.0**. Polices tierces : SIL OFL 1.1. Le détail, le copyright et la notice sur l'usage de l'IA (image de référence générée avec Gemini, code et SVG produits avec Claude) sont dans [`NOTICE.md`](NOTICE.md) ; les textes complets sont dans [`LICENSES/`](LICENSES).

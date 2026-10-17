@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: EUPL-1.2
 """Vectorise le monogramme de source/logo-reference.jpeg en SVG (deux calques : chalk / ochre)."""
 import sys
 import cv2

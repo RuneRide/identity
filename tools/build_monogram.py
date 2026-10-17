@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: EUPL-1.2
 """Construit le monogramme RuneRide en SVG géométrique (traits de largeur uniforme).
 
 Repère : viewBox 481x598, aligné sur le recadrage de source/logo-reference.jpeg.

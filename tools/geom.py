@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: EUPL-1.2
 """Helpers géométriques partagés par les scripts de build du logo."""
 import math
 
