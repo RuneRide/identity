@@ -1,0 +1,40 @@
+# SPDX-License-Identifier: EUPL-1.2
+# Publie le brand board sur https://brand.runeride.fr (GitHub Pages).
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assembler le site
+        run: |
+          mkdir _site
+          cp brand-board.html _site/index.html
+          cp -r logo patterns tokens fonts _site/
+          cp NOTICE.md _site/NOTICE.md
+          cp -r LICENSES _site/LICENSES
+          touch _site/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
