@@ -27,6 +27,7 @@ Les anciens chemins étaient jalonnés de runes pour guider les voyageurs. RuneR
 | `runeride` | Site vitrine, comptes, trajets GeoRide, ravitaillement (PHP, MariaDB) |
 | `runeride-cloud` | Stockage des rushs, montage et export GPU (Rust, AWS) |
 | `website` | Site vitrine de runeride.fr (statique, FR/EN) |
+| `runeride-weather` | Météo (AROME / AROME HD de Météo-France) : spécifications |
 | `identity` | Identité visuelle : logo, tokens, polices, lore |
 
 Tous les dépôts sont publics.
